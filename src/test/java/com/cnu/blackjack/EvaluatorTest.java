@@ -30,10 +30,18 @@ public class EvaluatorTest {
     @Test
     public void 각_플레이어는_16이하면_히트한다() {
 
-        Evaluator evaluator = new Evaluator(new Game(new Deck(2)).getPlayerList());
-        int total = (evaluator.getPlayerMap().get("p"+1).getHand().getCardList().get(0).getRank())+(evaluator.getPlayerMap().get("p"+1).getHand().getCardList().get(1).getRank());
-        evaluator.start();
-        assertThat(total, is(total));
+       Player player = new Player(5000, new Hand(new Deck(2)));
+
+        Map<String,Player> playerList=new HashMap<>();
+        playerList.put("John Doe",player);
+        Evaluator evaluator = new Evaluator(playerList);
+        if(player.getHand().getCardList().get(0).getRank()+player.getHand().getCardList().get(1).getRank()<=16){
+            player.hitCard();
+            playerList.get("John Doe").getHand().getCardList().size();
+            assertThat(playerList.get("John Doe").getHand().getCardList().size(),is(3));
+        }else{
+            assertThat(playerList.get("John Doe").getHand().getCardList().size(),is(2));
+        }
     }
 
     @Test
