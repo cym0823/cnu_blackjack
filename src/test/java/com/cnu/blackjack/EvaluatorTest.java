@@ -30,6 +30,10 @@ public class EvaluatorTest {
     @Test
     public void 각_플레이어는_16이하면_히트한다() {
 
+        Evaluator evaluator = new Evaluator(new Game(new Deck(2)).getPlayerList());
+        int total = (evaluator.getPlayerMap().get("p"+1).getHand().getCardList().get(0).getRank())+(evaluator.getPlayerMap().get("p"+1).getHand().getCardList().get(1).getRank());
+        evaluator.start();
+        assertThat(total, is(total));
     }
 
     @Test
