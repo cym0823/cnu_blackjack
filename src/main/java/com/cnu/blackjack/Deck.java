@@ -1,16 +1,14 @@
 package com.cnu.blackjack;
 
 import com.cnu.blackjack.exceptions.NoMoreCardException;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Data
 public class Deck {
     private final int number;
-        private final List<Card> cardList;
+    private final List<Card> cardList;
 
     public Deck(int number) {
         this.number = number;
