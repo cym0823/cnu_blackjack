@@ -8,7 +8,7 @@ public class Hand {
     private List<Card> cardList = new ArrayList<Card>();
 
     public Hand(Deck deck) {
-        this.deck = deck;
+            this.deck = deck;
     }
 
     public Card drawCard() {

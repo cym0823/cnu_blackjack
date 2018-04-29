@@ -6,6 +6,8 @@ public class EvaluatorTest {
 
     @Test
     public void 게임초기화시_모든플레이어는_2장의카드를_받는다() {
+   //      Evaluator evaluator = new Evaluator(new Game(new Deck(2)).getPlayerList());
+   //      evaluator.start();
 
     }
 
@@ -21,6 +23,7 @@ public class EvaluatorTest {
 
     @Test
     public void 각_플레이어는_17이상이면_스테이한다() {
+
 
     }
 }
