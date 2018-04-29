@@ -51,6 +51,30 @@ public class EvaluatorTest {
 
     @Test
     public void 블랙잭이나오면_2배로_보상받고_해당_플레이어의_턴은_끝난다() {
+        int init_balance = 0;
+        int aft_balance = 0;
+
+        Card card1 = new Card(10, SPADES);
+        Card card2 = new Card(11, SPADES);
+
+        Hand testHand = new Hand(new Deck(1));
+        testHand.drawSelectedCard(card1);
+        testHand.drawSelectedCard(card2);
+
+        Player testPlayer = new Player(20000, testHand);
+
+        Game game = new Game(new Deck(1));
+        game.addSelectedPlayer("p"+0, testPlayer);
+        game.placeBet("p"+0,200);
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Player player = game.getPlayerList().get("p"+0);
+        init_balance = player.getBalance();
+
+        Evaluator evaluator = new Evaluator(playerMap);
+        evaluator.start();
+
+        assertThat(aft_balance, is(init_balance+200));
 
     }
 
