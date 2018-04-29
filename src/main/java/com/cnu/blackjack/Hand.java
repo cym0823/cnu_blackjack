@@ -1,8 +1,11 @@
 package com.cnu.blackjack;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class Hand {
     private Deck deck;
     private List<Card> cardList = new ArrayList<Card>();
