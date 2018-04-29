@@ -14,16 +14,20 @@ public class EvaluatorTest {
 
     @Test
     public void 게임초기화시_모든플레이어는_2장의카드를_받는다() {
-        Evaluator evaluator = new Evaluator(new Game(new Deck(2)).getPlayerList());
+        int num_card = 0;
+        Game game = new Game(new Deck(1));
+        game.addPlayer("p"+0, 20000);
+        game.placeBet("p"+0, 1000);
+
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Evaluator evaluator = new Evaluator(playerMap);
         evaluator.start();
-        Map<String, Player> playerList = new HashMap<>();
-        Deck deck = new Deck(2);
-        Hand hand = new Hand(deck);
-        Player p1 = new Player(20000, hand);
-        playerList.put("1p", p1);
-        Evaluator evl = new Evaluator(playerList);
-        int currentDeck = playerList.get("1p").getHand().getCardList().size();
-        assertThat(currentDeck, is(2));
+
+        Player player = playerMap.get("p"+0);
+        num_card = player.getHand().getCardList().size();
+
+        assertThat(num_card, is(2));
     }
 
     @Test
