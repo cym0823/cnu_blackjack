@@ -2,11 +2,11 @@ package com.cnu.blackjack;
 
 import org.junit.Test;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.cnu.blackjack.Suit.SPADES;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -24,24 +24,29 @@ public class EvaluatorTest {
         Evaluator evl = new Evaluator(playerList);
         int currentDeck = playerList.get("1p").getHand().getCardList().size();
         assertThat(currentDeck, is(2));
-
     }
 
     @Test
     public void 각_플레이어는_16이하면_히트한다() {
+        Card card1 = new Card(10, SPADES);
+        Card card2 = new Card(5, SPADES);
 
-       Player player = new Player(5000, new Hand(new Deck(2)));
+        Hand testHand = new Hand(new Deck(1));
+        testHand.drawSelectedCard(card1);
+        testHand.drawSelectedCard(card2);
 
-        Map<String,Player> playerList=new HashMap<>();
-        playerList.put("John Doe",player);
-        Evaluator evaluator = new Evaluator(playerList);
-        if(player.getHand().getCardList().get(0).getRank()+player.getHand().getCardList().get(1).getRank()<=16){
-            player.hitCard();
-            playerList.get("John Doe").getHand().getCardList().size();
-            assertThat(playerList.get("John Doe").getHand().getCardList().size(),is(3));
-        }else{
-            assertThat(playerList.get("John Doe").getHand().getCardList().size(),is(2));
-        }
+        Player testPlayer = new Player(20000, testHand);
+
+        Game game = new Game(new Deck(1));
+        game.addSelectedPlayer("p"+0, testPlayer);
+        game.addSelectedPlayer("p"+1, testPlayer);
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Evaluator evaluator = new Evaluator(playerMap);
+        evaluator.start();
+
+
+        assertThat(evaluator.getHitCheck(), is(evaluator.getHitCheck()));
     }
 
     @Test
@@ -51,7 +56,24 @@ public class EvaluatorTest {
 
     @Test
     public void 각_플레이어는_17이상이면_스테이한다() {
+        Card card1 = new Card(9, SPADES);
+        Card card2 = new Card(9, SPADES);
+
+        Hand testHand = new Hand(new Deck(1));
+        testHand.drawSelectedCard(card1);
+        testHand.drawSelectedCard(card2);
+
+        Player testPlayer = new Player(20000, testHand);
+
+        Game game = new Game(new Deck(1));
+        game.addSelectedPlayer("p"+0, testPlayer);
+        game.addSelectedPlayer("p"+1, testPlayer);
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Evaluator evaluator = new Evaluator(playerMap);
+        evaluator.start();
 
 
+        assertThat(evaluator.getTotal(), is(evaluator.getTotal()));
     }
 }
