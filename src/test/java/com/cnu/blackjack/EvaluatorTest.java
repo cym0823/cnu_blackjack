@@ -11,19 +11,22 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EvaluatorTest {
-
     @Test
     public void 게임초기화시_모든플레이어는_2장의카드를_받는다() {
-        Evaluator evaluator = new Evaluator(new Game(new Deck(2)).getPlayerList());
+        int num_card = 0;
+        Game game = new Game(new Deck(1));
+        game.addPlayer("p"+0, 20000);
+        game.placeBet("p"+0, 1000);
+
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Evaluator evaluator = new Evaluator(playerMap);
         evaluator.start();
-        Map<String, Player> playerList = new HashMap<>();
-        Deck deck = new Deck(2);
-        Hand hand = new Hand(deck);
-        Player p1 = new Player(20000, hand);
-        playerList.put("1p", p1);
-        Evaluator evl = new Evaluator(playerList);
-        int currentDeck = playerList.get("1p").getHand().getCardList().size();
-        assertThat(currentDeck, is(2));
+
+        Player player = playerMap.get("p"+0);
+        num_card = player.getHand().getCardList().size();
+
+        assertThat(num_card, is(2));
     }
 
     @Test
@@ -51,7 +54,33 @@ public class EvaluatorTest {
 
     @Test
     public void 블랙잭이나오면_2배로_보상받고_해당_플레이어의_턴은_끝난다() {
+        int init_balance = 0;
+        int aft_balance = 0;
+        int ply_bet = 0;
 
+        Card card1 = new Card(10, SPADES);
+        Card card2 = new Card(11, SPADES);
+
+        Hand testHand = new Hand(new Deck(1));
+        testHand.drawSelectedCard(card1);
+        testHand.drawSelectedCard(card2);
+
+        Player testPlayer = new Player(20000, testHand);
+
+        Game game = new Game(new Deck(1));
+        game.addSelectedPlayer("p"+0, testPlayer);
+        game.placeBet("p"+0,1000);
+        Map<String, Player> playerMap = game.getPlayerList();
+
+        Evaluator evaluator = new Evaluator(playerMap);
+        Player player = game.getPlayerList().get("p"+0);
+        init_balance = player.getBalance();
+
+        evaluator.start();
+        ply_bet = player.getCurrentBet();
+        aft_balance = player.getBalance();
+
+        assertThat(aft_balance, is(init_balance+2*ply_bet));
     }
 
     @Test
